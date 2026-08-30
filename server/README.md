@@ -78,9 +78,13 @@ licenca aplicaveis antes do uso definitivo. O build confere o checksum oficial;
 para reproducibilidade mais forte, preencha `VH_SHA256` depois de aprovar uma
 versao especifica do binario.
 
-O container nao usa `privileged: true`. Ele recebe somente os device nodes USB,
-udev e a arvore USB do sysfs. Se a distribuicao bloquear alguma operacao, nao
-aumente privilegios cegamente: teste primeiro o servidor diretamente no host.
+O container nao usa `privileged: true`. Ele recebe os device nodes USB,
+`SYS_ADMIN` e escrita somente nas arvores USB de `sysfs`, pois o VirtualHere
+precisa desanexar e reanexar drivers durante o redirecionamento. Em hosts Ubuntu,
+o perfil AppArmor padrao bloqueia essa escrita; por isso somente o servico
+`virtualhere` usa `apparmor:unconfined`. Essas permissoes ainda sao elevadas,
+embora mais estreitas que `privileged: true`: execute apenas a imagem construida
+a partir deste repositorio e mantenha `AllowedDevices` limitado ao token.
 
 ## 4. Cloudflare
 

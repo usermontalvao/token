@@ -36,6 +36,17 @@ test('compose nao publica porta nem concede privileged', () => {
   }
 });
 
+test('VirtualHere recebe somente as permissoes elevadas necessarias ao sysfs USB', () => {
+  for (const file of ['docker-compose.yml', 'server/docker-compose.yml']) {
+    const compose = read(file);
+    assert.match(compose, /cap_add:\s*\n\s*- SYS_ADMIN/);
+    assert.match(compose, /\/sys\/bus\/usb:\/sys\/bus\/usb:rw/);
+    assert.match(compose, /\/sys\/devices:\/sys\/devices:rw/);
+    assert.match(compose, /apparmor:unconfined/);
+    assert.doesNotMatch(compose, /privileged\s*:\s*true/);
+  }
+});
+
 test('firewall bloqueia 7575 fora do loopback', () => {
   const firewall = read('server/scripts/lock-port.sh');
   assert.match(firewall, /iifname lo tcp dport/);

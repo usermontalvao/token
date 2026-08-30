@@ -29,8 +29,8 @@ if [ "$allowed_devices" = "1234/abcd" ]; then
   exit 64
 fi
 
-if ! printf '%s' "$allowed_devices" | grep -Eq '^[0-9A-Fa-f]+(/[0-9A-Fa-f*]+)?(,[0-9A-Fa-f]+(/[0-9A-Fa-f*]+)?)*$'; then
-  echo "VH_ALLOWED_DEVICES deve usar hexadecimal VID/PID, por exemplo 1234/abcd" >&2
+if ! printf '%s' "$allowed_devices" | grep -Eq '^[0-9A-Fa-f]{4}/[0-9A-Fa-f]{4}(,[0-9A-Fa-f]{4}/[0-9A-Fa-f]{4})*$'; then
+  echo "VH_ALLOWED_DEVICES deve ter exatamente quatro digitos em cada parte, por exemplo 1059/0019" >&2
   exit 64
 fi
 

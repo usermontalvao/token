@@ -31,6 +31,11 @@ token fisico.
 7. Mantenha bloqueio de tela e criptografia de disco nos clientes.
 8. Libere o token imediatamente depois do login ou assinatura.
 9. Conserve uma forma de retirar fisicamente o token e reiniciar o servidor.
+10. O servico VirtualHere em Docker possui `SYS_ADMIN`, acesso de escrita ao
+    `sysfs` USB e fica sem o perfil AppArmor padrao para poder controlar os
+    drivers USB. Nao reutilize essa imagem para outros processos e nao monte
+    outros caminhos do host nela. Para isolamento mais forte, prefira instalar
+    o binario VirtualHere diretamente no host como um servico dedicado.
 
 ## Riscos residuais
 
