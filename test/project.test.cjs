@@ -40,6 +40,7 @@ test('firewall bloqueia 7575 fora do loopback', () => {
   const firewall = read('server/scripts/lock-port.sh');
   assert.match(firewall, /iifname lo tcp dport/);
   assert.match(firewall, /tcp dport "\$port" drop/);
+  assert.doesNotMatch(firewall, /comment '/);
 });
 
 test('stack prepara a rede antes do VirtualHere sem privileged', () => {

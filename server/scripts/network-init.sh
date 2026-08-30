@@ -30,8 +30,8 @@ if nft list table inet "$table" >/dev/null 2>&1; then
 fi
 nft add table inet "$table"
 nft add chain inet "$table" input '{ type filter hook input priority 0; policy accept; }'
-nft add rule inet "$table" input iifname lo tcp dport "$port" accept comment 'cloudflared local para VirtualHere'
-nft add rule inet "$table" input tcp dport "$port" drop comment 'bloqueia VirtualHere nas interfaces fisicas'
+nft add rule inet "$table" input iifname lo tcp dport "$port" accept
+nft add rule inet "$table" input tcp dport "$port" drop
 
 echo "Rede preparada: ${address}/${prefix} em ${interface}"
 echo "Firewall preparado: TCP/${port} permitido apenas pelo loopback"
