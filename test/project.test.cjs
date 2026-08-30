@@ -69,6 +69,12 @@ test('servidor recusa VID/PID ficticio e IP inexistente', () => {
   assert.match(entrypoint, /-r stdout/);
 });
 
+test('healthcheck verifica o socket sem criar conexao VirtualHere artificial', () => {
+  const dockerfile = read('server/Dockerfile');
+  assert.match(dockerfile, /ss -H -lnt/);
+  assert.doesNotMatch(dockerfile, /nc -z/);
+});
+
 test('companion nao abre servidor HTTP local', () => {
   const host = read('companion/src/native-host.cjs');
   assert.doesNotMatch(host, /createServer\s*\(/);

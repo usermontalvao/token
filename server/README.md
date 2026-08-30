@@ -86,6 +86,12 @@ o perfil AppArmor padrao bloqueia essa escrita; por isso somente o servico
 embora mais estreitas que `privileged: true`: execute apenas a imagem construida
 a partir deste repositorio e mantenha `AllowedDevices` limitado ao token.
 
+O VirtualHere pode registrar que `/sys/module/usbcore/parameters/usbfs_memory_mb`
+esta somente para leitura. O servidor continua operacional quando, logo depois,
+registra `Listening` e `Found ... [VID:PID]`. Esse ajuste de buffer global e
+importante para dispositivos de alto volume, como webcams; ele nao e necessario
+para o MVP com o token criptografico e permanece bloqueado por seguranca.
+
 ## 4. Cloudflare
 
 O `cloudflared` pode ser o que ja existe no servidor. Se desejar usar o profile:

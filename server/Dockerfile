@@ -32,6 +32,6 @@ VOLUME ["/config"]
 EXPOSE 7575/tcp
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD nc -z "${VH_BIND_ADDRESS:-10.254.75.75}" "${VH_TCP_PORT:-7575}" || exit 1
+  CMD ss -H -lnt "sport = :${VH_TCP_PORT:-7575}" | grep -q LISTEN || exit 1
 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jurius-entrypoint"]
