@@ -42,6 +42,21 @@ test('firewall bloqueia 7575 fora do loopback', () => {
   assert.match(firewall, /tcp dport "\$port" drop/);
 });
 
+test('stack prepara a rede antes do VirtualHere sem privileged', () => {
+  const compose = read('docker-compose.yml');
+  assert.match(compose, /network-init:/);
+  assert.match(compose, /NET_ADMIN/);
+  assert.match(compose, /condition:\s*service_completed_successfully/);
+  assert.doesNotMatch(compose, /privileged\s*:\s*true/);
+});
+
+test('servidor recusa VID/PID ficticio e IP inexistente', () => {
+  const entrypoint = read('server/entrypoint.sh');
+  assert.match(entrypoint, /1234\/abcd/);
+  assert.match(entrypoint, /ip -o address show/);
+  assert.match(entrypoint, /-r stdout/);
+});
+
 test('companion nao abre servidor HTTP local', () => {
   const host = read('companion/src/native-host.cjs');
   assert.doesNotMatch(host, /createServer\s*\(/);

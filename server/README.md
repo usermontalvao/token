@@ -49,6 +49,16 @@ O arquivo para stack esta na raiz do repositorio: `docker-compose.yml`. No
 Portainer, deixe **Compose path** como `docker-compose.yml` e cadastre as
 variaveis abaixo no editor da stack, principalmente `VH_ALLOWED_DEVICES`.
 
+A stack inclui um servico one-shot chamado `network-init`. Ele recebe somente
+`NET_ADMIN`, cria o IP dummy e aplica a tabela de firewall deste projeto. Depois
+encerra com sucesso; o VirtualHere inicia somente depois dele. Portanto, na
+implantacao pelo Portainer nao e necessario executar manualmente os dois scripts
+de rede por SSH.
+
+O log do `jurius-token-network-init` tambem executa `lsusb`. Com o token
+fisicamente conectado, use esse log para descobrir `VID:PID` e informe a
+variavel `VH_ALLOWED_DEVICES` no formato `VID/PID`.
+
 Nao use `server/docker-compose.yml` como caminho se o repositorio ainda nao foi
 baixado ou se a stack estiver configurada para procurar o arquivo na raiz.
 

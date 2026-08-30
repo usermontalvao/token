@@ -1,4 +1,24 @@
 services:
+  network-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.network-init
+    image: jurius/token-network-init:local
+    container_name: jurius-token-network-init
+    restart: "no"
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      VH_DUMMY_INTERFACE: ${VH_DUMMY_INTERFACE:-jurius-token}
+      VH_BIND_ADDRESS: ${VH_BIND_ADDRESS:-10.254.75.75}
+      VH_PRIVATE_PREFIX: ${VH_PRIVATE_PREFIX:-32}
+      VH_TCP_PORT: ${VH_TCP_PORT:-7575}
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb:ro
+    security_opt:
+      - no-new-privileges:true
+
   virtualhere:
     build:
       context: .
@@ -24,6 +44,9 @@ services:
       - "c 189:* rwm"
     security_opt:
       - no-new-privileges:true
+    depends_on:
+      network-init:
+        condition: service_completed_successfully
 
   cloudflared:
     image: cloudflare/cloudflared:latest

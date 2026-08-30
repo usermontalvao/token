@@ -3,7 +3,7 @@ FROM alpine:3.22
 ARG TARGETARCH
 ARG VH_SHA256=""
 
-RUN apk add --no-cache ca-certificates curl tini \
+RUN apk add --no-cache ca-certificates curl iproute2 tini \
     && case "${TARGETARCH}" in \
          amd64) vh_binary="vhusbdx86_64" ;; \
          arm64) vh_binary="vhusbdarm64" ;; \
