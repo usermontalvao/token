@@ -1,7 +1,7 @@
 services:
   virtualhere:
     build:
-      context: .
+      context: ./server
       args:
         VH_SHA256: ${VH_SHA256:-}
     image: jurius/virtualhere-server:local
@@ -16,7 +16,7 @@ services:
       VH_AUTO_ATTACH_TO_KERNEL: ${VH_AUTO_ATTACH_TO_KERNEL:-0}
       VH_CLAIM_PORTS: ${VH_CLAIM_PORTS:-0}
     volumes:
-      - ./config:/config
+      - virtualhere_config:/config
       - /dev/bus/usb:/dev/bus/usb
       - /run/udev:/run/udev:ro
       - /sys/bus/usb:/sys/bus/usb
@@ -36,3 +36,6 @@ services:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  virtualhere_config:

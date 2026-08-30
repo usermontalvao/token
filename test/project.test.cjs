@@ -27,11 +27,13 @@ test('extensao e instaladores usam o mesmo nome de host', () => {
 });
 
 test('compose nao publica porta nem concede privileged', () => {
-  const compose = read('server/docker-compose.yml');
-  assert.doesNotMatch(compose, /^\s*ports\s*:/m);
-  assert.doesNotMatch(compose, /privileged\s*:\s*true/);
-  assert.match(compose, /network_mode:\s*host/);
-  assert.match(compose, /VH_ALLOWED_DEVICES/);
+  for (const file of ['docker-compose.yml', 'server/docker-compose.yml']) {
+    const compose = read(file);
+    assert.doesNotMatch(compose, /^\s*ports\s*:/m);
+    assert.doesNotMatch(compose, /privileged\s*:\s*true/);
+    assert.match(compose, /network_mode:\s*host/);
+    assert.match(compose, /VH_ALLOWED_DEVICES/);
+  }
 });
 
 test('firewall bloqueia 7575 fora do loopback', () => {

@@ -37,7 +37,8 @@ proteção contra esquecimento, nao um mecanismo de seguranca para o PIN.
 
 ## Inicio rapido
 
-1. No servidor Linux, leia [`server/README.md`](server/README.md).
+1. No servidor Linux, leia [`server/README.md`](server/README.md). Para
+   Portainer/Stacks, use o `docker-compose.yml` existente na raiz do repositorio.
 2. Configure a rota privada conforme [`docs/CLOUDFLARE.md`](docs/CLOUDFLARE.md).
 3. Em cada computador, instale VirtualHere Client, SafeSign e PJeOffice Pro.
 4. Instale o companion conforme [`companion/README.md`](companion/README.md).
@@ -56,4 +57,3 @@ proteção contra esquecimento, nao um mecanismo de seguranca para o PIN.
 - a interface local nao abre servidor HTTP em `localhost`.
 
 Consulte [`SECURITY.md`](SECURITY.md) antes de colocar o token real no servidor.
-

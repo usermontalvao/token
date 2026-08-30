@@ -43,6 +43,17 @@ depender de a edicao trial respeitar essa opcao.
 
 ## 3. Subir o VirtualHere
 
+### Portainer/Stack a partir do Git
+
+O arquivo para stack esta na raiz do repositorio: `docker-compose.yml`. No
+Portainer, deixe **Compose path** como `docker-compose.yml` e cadastre as
+variaveis abaixo no editor da stack, principalmente `VH_ALLOWED_DEVICES`.
+
+Nao use `server/docker-compose.yml` como caminho se o repositorio ainda nao foi
+baixado ou se a stack estiver configurada para procurar o arquivo na raiz.
+
+### Terminal dentro da pasta server
+
 ```bash
 cp .env.example .env
 # edite .env e informe o VID/PID verdadeiro
