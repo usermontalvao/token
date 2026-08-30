@@ -1,0 +1,11 @@
+{
+  "serverHost": "10.254.75.75",
+  "serverPort": 7575,
+  "tokenPattern": "GD|Burti|SafeSign|StarSign|Token",
+  "leaseSeconds": 300,
+  "connectTimeoutMs": 1800,
+  "virtualHerePath": "",
+  "pjeOfficePattern": "pjeoffice",
+  "safeSignPattern": "tokenadmin|safesign|aetpkss"
+}
+

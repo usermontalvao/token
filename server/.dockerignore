@@ -1,0 +1,7 @@
+.env
+config/
+scripts/
+README.md
+docker-compose.yml
+*.log
+

@@ -1,0 +1,74 @@
+name: companion
+
+on:
+  push:
+    paths:
+      - "companion/**"
+      - ".github/workflows/companion.yml"
+  pull_request:
+    paths:
+      - "companion/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node --check companion/src/native-host.cjs
+      - run: node --test companion/test/*.test.cjs
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: node24-linux-x64
+            os: ubuntu-latest
+            artifact: linux-x64
+            output: jurius-token-bridge-linux-x64
+          - target: node24-linux-arm64
+            os: ubuntu-latest
+            artifact: linux-arm64
+            output: jurius-token-bridge-linux-arm64
+          - target: node24-win-x64
+            os: windows-latest
+            artifact: windows-x64
+            output: jurius-token-bridge-windows-x64.exe
+          - target: node24-win-arm64
+            os: windows-latest
+            artifact: windows-arm64
+            output: jurius-token-bridge-windows-arm64.exe
+          - target: node24-macos-x64
+            os: macos-latest
+            artifact: macos-x64
+            output: jurius-token-bridge-macos-x64
+          - target: node24-macos-arm64
+            os: macos-latest
+            artifact: macos-arm64
+            output: jurius-token-bridge-macos-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - shell: bash
+        run: mkdir -p dist
+      - run: npx pkg --sea companion/src/native-host.cjs --targets ${{ matrix.target }} --output dist/${{ matrix.output }}
+      - if: runner.os == 'macOS'
+        run: codesign --force --sign - dist/${{ matrix.output }}
+      - if: runner.os == 'macOS'
+        run: codesign --verify --verbose=2 dist/${{ matrix.output }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jurius-token-bridge-${{ matrix.artifact }}
+          path: dist/${{ matrix.output }}
+          if-no-files-found: error

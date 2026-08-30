@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certificado Digital</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2.8 19 6v5.2c0 4.7-2.8 8.2-7 10-4.2-1.8-7-5.3-7-10V6l7-3.2Z"/><path d="m8.8 12.2 2.1 2.1 4.6-4.8"/></svg>
+      </div>
+      <div>
+        <span class="eyebrow">Jurius</span>
+        <h1>Certificado Digital</h1>
+      </div>
+      <button class="icon-button" id="refresh" type="button" title="Atualizar" aria-label="Atualizar estado">
+        <svg viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M18.5 16a8 8 0 1 1-.6-8.7L20 9"/></svg>
+      </button>
+    </header>
+
+    <section class="summary" id="summary" aria-live="polite">
+      <span class="summary-dot loading" id="summary-dot"></span>
+      <div>
+        <b id="summary-title">Verificando ambiente…</b>
+        <small id="summary-detail">Aguarde um instante</small>
+      </div>
+    </section>
+
+    <section class="states" aria-label="Estado dos componentes">
+      <div class="state-row">
+        <span class="state-icon" data-state-icon="network"></span>
+        <div><b>Rede do escritório</b><small id="network-detail">Verificando…</small></div>
+        <span class="badge" id="network-state">—</span>
+      </div>
+      <div class="state-row">
+        <span class="state-icon" data-state-icon="server"></span>
+        <div><b>Servidor USB</b><small id="server-detail">VirtualHere</small></div>
+        <span class="badge" id="server-state">—</span>
+      </div>
+      <div class="state-row">
+        <span class="state-icon" data-state-icon="token"></span>
+        <div><b>Token GD Burti</b><small id="token-detail">Procurando dispositivo…</small></div>
+        <span class="badge" id="token-state">—</span>
+      </div>
+      <div class="state-row">
+        <span class="state-icon" data-state-icon="safeSign"></span>
+        <div><b>SafeSign</b><small id="safesign-detail">Middleware local</small></div>
+        <span class="badge" id="safesign-state">—</span>
+      </div>
+      <div class="state-row">
+        <span class="state-icon" data-state-icon="pje"></span>
+        <div><b>PJeOffice Pro</b><small id="pje-detail">Aplicativo local</small></div>
+        <span class="badge" id="pje-state">—</span>
+      </div>
+    </section>
+
+    <p class="error hidden" id="error" role="alert"></p>
+
+    <section class="lease hidden" id="lease">
+      <div><span>Reserva deste computador</span><b id="lease-time">05:00</b></div>
+      <div class="lease-track"><i id="lease-bar"></i></div>
+    </section>
+
+    <footer>
+      <button class="primary" id="connect" type="button" disabled>Conectar token</button>
+      <div class="connected-actions hidden" id="connected-actions">
+        <button class="secondary" id="renew" type="button">Renovar</button>
+        <button class="danger" id="disconnect" type="button">Liberar token</button>
+      </div>
+      <p>O PIN nunca passa pela extensão. Informe-o somente na janela do SafeSign ou PJeOffice.</p>
+    </footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
+

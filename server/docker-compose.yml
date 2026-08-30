@@ -1,0 +1,38 @@
+services:
+  virtualhere:
+    build:
+      context: .
+      args:
+        VH_SHA256: ${VH_SHA256:-}
+    image: jurius/virtualhere-server:local
+    container_name: jurius-token-virtualhere
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      VH_SERVER_NAME: ${VH_SERVER_NAME:-Jurius Token Office}
+      VH_BIND_ADDRESS: ${VH_BIND_ADDRESS:-10.254.75.75}
+      VH_TCP_PORT: ${VH_TCP_PORT:-7575}
+      VH_ALLOWED_DEVICES: ${VH_ALLOWED_DEVICES:?Informe o VID/PID em VH_ALLOWED_DEVICES}
+      VH_AUTO_ATTACH_TO_KERNEL: ${VH_AUTO_ATTACH_TO_KERNEL:-0}
+      VH_CLAIM_PORTS: ${VH_CLAIM_PORTS:-0}
+    volumes:
+      - ./config:/config
+      - /dev/bus/usb:/dev/bus/usb
+      - /run/udev:/run/udev:ro
+      - /sys/bus/usb:/sys/bus/usb
+    device_cgroup_rules:
+      - "c 189:* rwm"
+    security_opt:
+      - no-new-privileges:true
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: jurius-token-cloudflared
+    profiles: ["cloudflare"]
+    restart: unless-stopped
+    network_mode: host
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Informe CLOUDFLARE_TUNNEL_TOKEN}
+    security_opt:
+      - no-new-privileges:true
