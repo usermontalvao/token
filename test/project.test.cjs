@@ -58,8 +58,18 @@ test('stack prepara a rede antes do VirtualHere sem privileged', () => {
   const compose = read('docker-compose.yml');
   assert.match(compose, /network-init:/);
   assert.match(compose, /NET_ADMIN/);
-  assert.match(compose, /condition:\s*service_completed_successfully/);
+  assert.match(compose, /condition:\s*service_healthy/);
+  assert.match(compose, /network-init:[\s\S]*?restart:\s*unless-stopped/);
   assert.doesNotMatch(compose, /privileged\s*:\s*true/);
+});
+
+test('guardiao de rede persiste o IP privado entre reinicializacoes', () => {
+  const script = read('server/scripts/network-init.sh');
+  const dockerfile = read('server/Dockerfile.network-init');
+  assert.match(script, /Guardiao da rede ativo/);
+  assert.match(script, /trap cleanup INT TERM/);
+  assert.match(dockerfile, /HEALTHCHECK/);
+  assert.match(dockerfile, /nft list table inet jurius_token/);
 });
 
 test('servidor recusa VID/PID ficticio e IP inexistente', () => {

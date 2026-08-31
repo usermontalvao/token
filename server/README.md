@@ -49,9 +49,11 @@ O arquivo para stack esta na raiz do repositorio: `docker-compose.yml`. No
 Portainer, deixe **Compose path** como `docker-compose.yml` e cadastre as
 variaveis abaixo no editor da stack, principalmente `VH_ALLOWED_DEVICES`.
 
-A stack inclui um servico one-shot chamado `network-init`. Ele recebe somente
-`NET_ADMIN`, cria o IP dummy e aplica a tabela de firewall deste projeto. Depois
-encerra com sucesso; o VirtualHere inicia somente depois dele. Portanto, na
+A stack inclui um servico guardiao chamado `network-init`. Ele recebe somente
+`NET_ADMIN`, cria o IP dummy e aplica a tabela de firewall deste projeto. O
+servico permanece ativo e reinicia junto com o Docker, recriando o mesmo IP
+privado depois de um reboot; o VirtualHere inicia somente quando ele esta
+saudavel. Portanto, na
 implantacao pelo Portainer nao e necessario executar manualmente os dois scripts
 de rede por SSH.
 

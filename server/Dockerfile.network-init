@@ -5,4 +5,8 @@ RUN apk add --no-cache iproute2 nftables usbutils
 COPY scripts/network-init.sh /usr/local/bin/jurius-network-init
 RUN chmod 0755 /usr/local/bin/jurius-network-init
 
+HEALTHCHECK --interval=15s --timeout=3s --start-period=3s --retries=3 \
+  CMD ip -o address show dev "${VH_DUMMY_INTERFACE:-jurius-token}" | grep -Fq "inet ${VH_BIND_ADDRESS:-10.254.75.75}/${VH_PRIVATE_PREFIX:-32}" \
+    && nft list table inet jurius_token >/dev/null || exit 1
+
 ENTRYPOINT ["/usr/local/bin/jurius-network-init"]

@@ -40,3 +40,18 @@ nft list table inet "$table"
 
 echo "Dispositivos USB visiveis no host:"
 lsusb || true
+
+# Mantem o servico ativo para que o Docker o execute novamente a cada boot do
+# host. Ao remover a stack, desfaz somente os recursos pertencentes ao projeto.
+cleanup() {
+  nft delete table inet "$table" >/dev/null 2>&1 || true
+  ip link delete "$interface" >/dev/null 2>&1 || true
+  exit 0
+}
+trap cleanup INT TERM
+
+echo "Guardiao da rede ativo; o IP privado sera recriado automaticamente apos reboot"
+while :; do
+  sleep 3600 &
+  wait "$!"
+done
