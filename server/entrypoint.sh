@@ -43,13 +43,12 @@ fi
 umask 077
 {
   printf 'ServerName=%s\n' "$server_name"
-  printf 'NetworkInterface=%s\n' "$bind_address"
-  printf 'TCPPort=%s\n' "$tcp_port"
   printf 'AllowedDevices=%s\n' "$allowed_devices"
   printf 'AutoAttachToKernel=%s\n' "$auto_attach"
   printf 'ClaimPorts=%s\n' "$claim_ports"
 } > "$config_file"
 
-echo "Iniciando VirtualHere em ${bind_address}:${tcp_port}; somente ${allowed_devices}" >&2
+echo "Iniciando VirtualHere na porta padrao ${tcp_port}; somente ${allowed_devices}" >&2
+echo "A edicao gratuita escuta em todas as interfaces; nftables restringe TCP/${tcp_port} ao acesso local do tunnel" >&2
 cd /config
 exec /usr/local/bin/vhusbd -c "$config_file" -r stdout

@@ -79,6 +79,13 @@ test('servidor recusa VID/PID ficticio e IP inexistente', () => {
   assert.match(entrypoint, /-r stdout/);
 });
 
+test('configuracao gratuita nao ativa parametros avancados licenciados', () => {
+  const entrypoint = read('server/entrypoint.sh');
+  assert.doesNotMatch(entrypoint, /printf 'NetworkInterface=/);
+  assert.doesNotMatch(entrypoint, /printf 'TCPPort=/);
+  assert.match(entrypoint, /AllowedDevices=/);
+});
+
 test('healthcheck verifica o socket sem criar conexao VirtualHere artificial', () => {
   const dockerfile = read('server/Dockerfile');
   assert.match(dockerfile, /ss -H -lnt/);

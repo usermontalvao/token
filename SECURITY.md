@@ -25,7 +25,9 @@ token fisico.
 4. Configure `VH_ALLOWED_DEVICES` com o VID/PID real. Nao deixe vazio em
    producao.
 5. Aplique `server/scripts/lock-port.sh`; nao confie apenas em
-   `NetworkInterface`, pois recursos avancados podem depender da licenca.
+   `NetworkInterface`, pois esse recurso avancado exige uma licenca VirtualHere.
+   Na edicao gratuita, a protecao da porta depende obrigatoriamente da tabela
+   `inet jurius_token` criada pela stack.
 6. Nao grave o PIN em extensao, companion, variavel de ambiente ou gerenciador
    de automacao.
 7. Mantenha bloqueio de tela e criptografia de disco nos clientes.

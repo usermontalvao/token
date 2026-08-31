@@ -80,6 +80,13 @@ licenca aplicaveis antes do uso definitivo. O build confere o checksum oficial;
 para reproducibilidade mais forte, preencha `VH_SHA256` depois de aprovar uma
 versao especifica do binario.
 
+Na edicao generica gratuita, o projeto nao grava `NetworkInterface` nem
+`TCPPort` no `config.ini`: o VirtualHere classifica esses parametros como
+avancados e exibe `trial expired` sem uma licenca comprada, mesmo quando a porta
+informada e a padrao 7575. O servidor escuta em todas as interfaces e a
+restricao obrigatoria fica na tabela `inet jurius_token`, que aceita TCP/7575
+somente pelo loopback usado pelo `cloudflared` e descarta o restante.
+
 O container nao usa `privileged: true`. Ele recebe os device nodes USB,
 `SYS_ADMIN` e escrita somente nas arvores USB de `sysfs`, pois o VirtualHere
 precisa desanexar e reanexar drivers durante o redirecionamento. Em hosts Ubuntu,
