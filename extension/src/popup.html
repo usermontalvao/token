@@ -16,9 +16,14 @@
         <span class="eyebrow">Jurius</span>
         <h1>Certificado Digital</h1>
       </div>
-      <button class="icon-button" id="refresh" type="button" title="Atualizar" aria-label="Atualizar estado">
-        <svg viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M18.5 16a8 8 0 1 1-.6-8.7L20 9"/></svg>
-      </button>
+      <div class="header-actions">
+        <a class="icon-button" href="manual.html" target="_blank" title="Configurações e manuais" aria-label="Abrir configurações e manuais">
+          <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+        </a>
+        <button class="icon-button" id="refresh" type="button" title="Atualizar" aria-label="Atualizar estado">
+          <svg viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M18.5 16a8 8 0 1 1-.6-8.7L20 9"/></svg>
+        </button>
+      </div>
     </header>
 
     <section class="summary" id="summary" aria-live="polite">
@@ -71,9 +76,12 @@
         <button class="danger" id="disconnect" type="button">Liberar token</button>
       </div>
       <p>O PIN nunca passa pela extensão. Informe-o somente na janela do SafeSign ou PJeOffice.</p>
+      <nav class="help-links" aria-label="Manuais e downloads">
+        <a href="manual.html" target="_blank">Manual completo</a>
+        <a href="https://token.jurius-api.com/" target="_blank" rel="noopener noreferrer">Portal do token</a>
+      </nav>
     </footer>
   </main>
   <script src="popup.js"></script>
 </body>
 </html>
-

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual — Jurius Token Bridge</title>
+  <link rel="stylesheet" href="manual.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Jurius Token Bridge</p>
+      <h1>Configurações e manual completo</h1>
+      <p class="lead">Instalação, conexão e diagnóstico do certificado A3 remoto no Windows e no macOS.</p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Índice">
+      <b>Neste manual</b>
+      <a href="#visao-geral">Visão geral</a>
+      <a href="#configuracao">Configuração Jurius</a>
+      <a href="#warp">1. Cloudflare WARP</a>
+      <a href="#virtualhere">2. VirtualHere Client</a>
+      <a href="#safesign">3. SafeSign</a>
+      <a href="#pjeoffice">4. PJeOffice Pro</a>
+      <a href="#extensao">5. Extensão</a>
+      <a href="#uso">Uso diário</a>
+      <a href="#problemas">Solução de problemas</a>
+      <a href="#links">Downloads oficiais</a>
+    </nav>
+
+    <main>
+      <section class="card" id="visao-geral">
+        <h2>Visão geral</h2>
+        <p>O token GD Burti permanece fisicamente conectado ao servidor do escritório. O Cloudflare One Client cria a rota privada e o VirtualHere o apresenta ao computador como USB local. SafeSign e PJeOffice continuam trabalhando normalmente.</p>
+        <p class="notice"><strong>Segurança:</strong> a chave privada nunca é extraída do token e o Jurius não solicita nem armazena o PIN. Digite o PIN somente na janela do SafeSign ou PJeOffice.</p>
+        <p class="notice warning"><strong>Uso exclusivo:</strong> um token físico atende um computador por vez. Ao terminar, clique em <strong>Liberar token</strong> para a próxima pessoa usar.</p>
+      </section>
+
+      <section class="card" id="configuracao">
+        <h2>Configuração deste ambiente</h2>
+        <div class="values">
+          <div class="value"><small>Equipe Cloudflare</small><b>equipe-jurius</b></div>
+          <div class="value"><small>E-mail autorizado no MVP</small><b>pedro@advcuiaba.com</b></div>
+          <div class="value"><small>Servidor privado</small><b>10.254.75.75:7575</b></div>
+          <div class="value"><small>Rota WARP</small><b>10.254.75.75/32</b></div>
+          <div class="value"><small>Token permitido</small><b>1059:0019 — StarSign CUT S</b></div>
+          <div class="value"><small>Portal de apoio/status</small><b>token.jurius-api.com</b></div>
+        </div>
+        <p>O endereço <a href="https://token.jurius-api.com/" target="_blank" rel="noopener noreferrer">token.jurius-api.com</a> é apenas o portal de apoio/status. A porta 7575 não deve ser publicada nesse domínio nem exposta à Internet.</p>
+      </section>
+
+      <section class="card" id="warp">
+        <h2>1. Ligar a rede privada Cloudflare</h2>
+        <h3>Windows e macOS</h3>
+        <ol>
+          <li>Baixe a versão estável do <a href="https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/" target="_blank" rel="noopener noreferrer">Cloudflare One Client</a> correspondente ao seu sistema.</li>
+          <li>Instale e abra o aplicativo. Selecione <strong>Zero Trust security</strong>.</li>
+          <li>Quando pedir o nome da equipe, informe somente <code>equipe-jurius</code>.</li>
+          <li>O navegador abrirá <code>equipe-jurius.cloudflareaccess.com</code>. Autentique-se com <code>pedro@advcuiaba.com</code> ou outro e-mail previamente autorizado pelo administrador.</li>
+          <li>Volte ao aplicativo e deixe o botão em <strong>Connected/Conectado</strong>.</li>
+        </ol>
+        <p>O WARP está configurado com Split Tunnel para levar somente <code>10.254.75.75/32</code> ao escritório. Sua navegação normal não deve passar pelo servidor Linux.</p>
+        <h3>Testar no macOS</h3>
+        <pre><code>route -n get 10.254.75.75
+nc -vz 10.254.75.75 7575</code></pre>
+        <p>A rota deve usar uma interface <code>utun</code> e o teste da porta deve informar sucesso.</p>
+        <h3>Testar no Windows (PowerShell)</h3>
+        <pre><code>Test-NetConnection -ComputerName 10.254.75.75 -Port 7575</code></pre>
+        <p>O resultado esperado é <code>TcpTestSucceeded : True</code>. Com o WARP desligado, deve ser <code>False</code>.</p>
+      </section>
+
+      <section class="card" id="virtualhere">
+        <h2>2. Instalar e configurar o VirtualHere Client</h2>
+        <ol>
+          <li>Baixe o cliente oficial para <a href="https://www.virtualhere.com/usb_client_software" target="_blank" rel="noopener noreferrer">Windows ou macOS</a>.</li>
+          <li>Abra o VirtualHere Client. No macOS, aprove as permissões de sistema solicitadas. No Windows, aceite a instalação do driver quando solicitado.</li>
+          <li>Clique com o botão direito em <strong>USB Servers</strong> e escolha <strong>Specify Hubs</strong>.</li>
+          <li>Adicione <code>10.254.75.75:7575</code>. Não use o domínio público do portal.</li>
+          <li>Expanda <strong>Jurius Token Office</strong>. O item esperado é <strong>StarSign CUT S</strong>.</li>
+          <li>Para um teste manual, clique com o botão direito no token e escolha <strong>Use this device</strong>. No uso normal, a extensão fará essa solicitação.</li>
+        </ol>
+        <p>Se aparecer <strong>This server trial has expired</strong>, o servidor ainda está usando configuração avançada incompatível com a edição gratuita. O administrador deve recriar a stack com a versão atual deste projeto.</p>
+      </section>
+
+      <section class="card" id="safesign">
+        <h2>3. Instalar e validar o SafeSign</h2>
+        <ol>
+          <li>Baixe o middleware compatível com o token GD Burti/StarSign e com a versão do seu sistema. Consulte primeiro o fornecedor do certificado; como referência, a <a href="https://suporte.certisign.com.br/duvidas-suporte/downloads/tokens" target="_blank" rel="noopener noreferrer">Certisign mantém downloads por modelo e sistema</a>.</li>
+          <li>Instale e reinicie o computador se o instalador solicitar.</li>
+          <li>Conecte o token no VirtualHere e abra o <strong>SafeSign TokenAdmin</strong>.</li>
+          <li>Confirme que o token e o certificado aparecem. Não altere, inicialize nem formate o token.</li>
+        </ol>
+        <p class="notice warning">Não teste PIN repetidamente. Tokens A3 bloqueiam após um número limitado de tentativas incorretas.</p>
+      </section>
+
+      <section class="card" id="pjeoffice">
+        <h2>4. Instalar e validar o PJeOffice Pro</h2>
+        <ol>
+          <li>Baixe o instalador correto na <a href="https://pjeoffice.trf3.jus.br/pjeoffice-pro/docs/userguide.html" target="_blank" rel="noopener noreferrer">página oficial do PJeOffice Pro</a>: Windows 64 bits, Mac Intel ou Mac Apple Silicon.</li>
+          <li>Instale e abra o PJeOffice Pro antes de entrar no PJe.</li>
+          <li>Nas configurações de certificado, confirme que o SafeSign/PKCS#11 e o certificado aparecem.</li>
+          <li>Abra o PJe no Chrome, escolha <strong>Certificado Digital</strong>, autorize a comunicação com o PJeOffice e faça uma assinatura de homologação.</li>
+        </ol>
+      </section>
+
+      <section class="card" id="extensao">
+        <h2>5. Instalar a ponte local e a extensão</h2>
+        <ol>
+          <li>Instale o companion Jurius no computador seguindo o instalador de Windows ou macOS fornecido pela equipe.</li>
+          <li>No Chrome, abra <code>chrome://extensions</code>, habilite o modo do desenvolvedor e carregue a pasta <code>extension</code> sem compactação durante o MVP.</li>
+          <li>Fixe a extensão na barra do Chrome. Abra-a e use o botão de atualizar.</li>
+        </ol>
+        <ul class="checks">
+          <li>Rede do escritório: Conectada</li>
+          <li>Servidor USB: Online</li>
+          <li>Token GD Burti: Disponível</li>
+          <li>SafeSign: Instalado</li>
+          <li>PJeOffice Pro: Ativo</li>
+        </ul>
+      </section>
+
+      <section class="card" id="uso">
+        <h2>Uso diário</h2>
+        <ol>
+          <li>Ligue o Cloudflare One Client/WARP.</li>
+          <li>Abra VirtualHere Client, SafeSign e PJeOffice Pro.</li>
+          <li>Abra a extensão e clique em <strong>Conectar token</strong>.</li>
+          <li>Acesse o PJe e assine normalmente. Informe o PIN apenas quando o SafeSign/PJeOffice solicitar.</li>
+          <li>Ao concluir, clique em <strong>Liberar token</strong>. A reserva também expira automaticamente após cinco minutos.</li>
+        </ol>
+      </section>
+
+      <section class="card" id="problemas">
+        <h2>Solução de problemas</h2>
+        <h3>“Enrollment request is invalid”</h3>
+        <p>A política de Device Enrollment não está associada ou o e-mail não corresponde. O administrador deve associar uma política Allow contendo o e-mail exato; depois remova o registro antigo no WARP e matricule novamente.</p>
+        <h3>Rede privada offline</h3>
+        <p>Confirme WARP conectado e equipe <code>equipe-jurius</code>. Execute o teste da porta acima. Se falhar, verifique rota CIDR <code>10.254.75.75/32</code>, Split Tunnel e saúde do túnel.</p>
+        <h3>Servidor aparece, mas o token não</h3>
+        <p>O administrador deve confirmar no Linux que <code>lsusb</code> mostra <code>1059:0019</code> e que o log do VirtualHere mostra <code>Found ... StarSign CUT S</code>.</p>
+        <h3>Token “Em uso”</h3>
+        <p>Outro computador detém o USB. Espere a pessoa liberar ou a reserva expirar. Um token físico não pode ser conectado simultaneamente a dois computadores.</p>
+        <h3>SafeSign não mostra o certificado</h3>
+        <p>Primeiro confirme que o VirtualHere mostra o dispositivo em uso neste computador. Depois reinicie TokenAdmin. Se persistir, reinstale a versão correta do middleware para o sistema e arquitetura.</p>
+        <h3>PJeOffice não encontra o certificado</h3>
+        <p>Confirme o certificado no TokenAdmin, encerre e reabra o PJeOffice depois de conectar o USB, confira a biblioteca PKCS#11 configurada e só então reabra o PJe.</p>
+      </section>
+
+      <section class="card" id="links">
+        <h2>Downloads e documentação</h2>
+        <div class="links">
+          <a class="link-card" href="https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/" target="_blank" rel="noopener noreferrer"><b>Cloudflare One Client</b><small>Windows e macOS — versão estável</small></a>
+          <a class="link-card" href="https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/deployment/manual-deployment/" target="_blank" rel="noopener noreferrer"><b>Matrícula manual WARP</b><small>Documentação oficial Cloudflare</small></a>
+          <a class="link-card" href="https://www.virtualhere.com/usb_client_software" target="_blank" rel="noopener noreferrer"><b>VirtualHere Client</b><small>Windows e macOS</small></a>
+          <a class="link-card" href="https://pjeoffice.trf3.jus.br/pjeoffice-pro/docs/userguide.html" target="_blank" rel="noopener noreferrer"><b>PJeOffice Pro</b><small>Downloads oficiais por sistema</small></a>
+          <a class="link-card" href="https://suporte.certisign.com.br/duvidas-suporte/downloads/tokens" target="_blank" rel="noopener noreferrer"><b>SafeSign / GD Burti</b><small>Drivers por modelo e sistema</small></a>
+          <a class="link-card" href="https://token.jurius-api.com/" target="_blank" rel="noopener noreferrer"><b>Portal do token</b><small>Apoio e status Jurius</small></a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="footer">Jurius Token Bridge — o PIN e a chave privada permanecem fora da extensão.</footer>
+</body>
+</html>

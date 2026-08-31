@@ -22,9 +22,14 @@ com o mesmo ID ao mesmo tempo.
 
 O companion precisa ter sido instalado permitindo exatamente o ID acima.
 
+O icone de engrenagem abre a pagina **Configuracoes e manuais**, empacotada na
+propria extensao. Ela contem os passos para Windows e macOS e links oficiais do
+Cloudflare One Client, VirtualHere Client, SafeSign e PJeOffice Pro. O popup
+tambem oferece o portal HTTPS <https://token.jurius-api.com/> como apoio/status;
+esse dominio nao substitui o hub privado `10.254.75.75:7575`.
+
 ## Incorporacao posterior
 
 Depois da homologacao, nao sera necessario manter esta extensao separada. O
 service worker e o bloco visual podem ser incorporados ao Jurius Authenticator.
 Veja `../docs/INTEGRACAO-JURIUS.md`.
-

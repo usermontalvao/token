@@ -23,7 +23,8 @@ header { display: flex; align-items: center; gap: 11px; padding: 18px 18px 15px;
 .mark svg { width: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .eyebrow { display: block; color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 h1 { margin: 2px 0 0; font-size: 18px; letter-spacing: -.025em; }
-.icon-button { margin-left: auto; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: transparent; cursor: pointer; }
+.header-actions { margin-left: auto; display: flex; gap: 7px; }
+.icon-button { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: transparent; cursor: pointer; text-decoration: none; }
 .icon-button:hover { color: var(--green); border-color: #b9d8cd; }
 .icon-button svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .icon-button.spinning svg { animation: spin .7s linear infinite; }
@@ -71,6 +72,9 @@ footer button:disabled { cursor: not-allowed; opacity: .48; }
 .secondary { color: var(--green); background: var(--green-soft); }
 .danger { color: var(--red); background: var(--red-soft); }
 footer p { margin: 10px 10px 0; color: var(--muted); font-size: 9.5px; line-height: 1.45; text-align: center; }
+.help-links { display: flex; justify-content: center; gap: 12px; margin-top: 9px; }
+.help-links a { color: var(--green); font-size: 10px; font-weight: 700; text-decoration: none; }
+.help-links a:hover { text-decoration: underline; }
 .hidden { display: none !important; }
 
 @media (prefers-color-scheme: dark) {
@@ -78,4 +82,3 @@ footer p { margin: 10px 10px 0; color: var(--muted); font-size: 9.5px; line-heig
   .badge { background: #252e2a; }
   .lease-track { background: #2a3530; }
 }
-

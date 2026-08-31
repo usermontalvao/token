@@ -98,3 +98,29 @@ test('companion nao abre servidor HTTP local', () => {
   assert.doesNotMatch(host, /require\(['"]node:http['"]\)/);
   assert.doesNotMatch(host, /child_process\.exec\s*\(/);
 });
+
+test('extensao oferece configuracoes, manual e portal do token', () => {
+  const popup = read('extension/src/popup.html');
+  const manual = read('extension/src/manual.html');
+  assert.match(popup, /Configurações e manuais/);
+  assert.match(popup, /href="manual\.html"/);
+  assert.match(popup, /https:\/\/token\.jurius-api\.com\//);
+  assert.match(manual, /pedro@advcuiaba\.com/);
+  assert.match(manual, /equipe-jurius/);
+  assert.match(manual, /10\.254\.75\.75:7575/);
+  assert.match(manual, /Cloudflare One Client/);
+  assert.match(manual, /VirtualHere Client/);
+  assert.match(manual, /SafeSign/);
+  assert.match(manual, /PJeOffice Pro/);
+});
+
+test('manual distingue portal HTTPS do transporte USB privado', () => {
+  const manual = read('docs/MANUAL-COMPLETO.md');
+  assert.match(manual, /pedro@advcuiaba\.com/);
+  assert.match(manual, /Não.*Public Hostname|N.o.*Public Hostname/s);
+  assert.match(manual, /10\.254\.75\.75\/32/);
+  assert.match(manual, /Test-NetConnection/);
+  assert.match(manual, /nc -vz 10\.254\.75\.75 7575/);
+  assert.match(manual, /https:\/\/token\.jurius-api\.com\//);
+  assert.doesNotMatch(manual, /tcp:\/\/token\.jurius-api\.com/);
+});

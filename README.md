@@ -26,6 +26,10 @@ Token A3 USB
   Jurius Authenticator existente.
 - `docs/`: instalacao do Cloudflare, roteiro de homologacao e integracao.
 
+O guia operacional para Windows, macOS, administracao do Cloudflare e
+diagnostico esta em [`docs/MANUAL-COMPLETO.md`](docs/MANUAL-COMPLETO.md). A
+extensao tambem oferece esse manual em **Configuracoes e manuais**.
+
 ## Regra de uso
 
 O token so pode pertencer a um computador por vez. Ao conectar, o companion
@@ -44,6 +48,11 @@ proteção contra esquecimento, nao um mecanismo de seguranca para o PIN.
 4. Instale o companion conforme [`companion/README.md`](companion/README.md).
 5. Carregue `extension/` em `chrome://extensions` para o teste isolado.
 6. Execute o roteiro [`docs/HOMOLOGACAO.md`](docs/HOMOLOGACAO.md).
+
+Para este MVP, a equipe WARP e `equipe-jurius`, o e-mail de matricula
+autorizado e `pedro@advcuiaba.com` e o hub privado e
+`10.254.75.75:7575`. O portal <https://token.jurius-api.com/> e apenas um link
+HTTPS de apoio/status; ele nao publica o VirtualHere.
 
 ## Seguranca do MVP
 

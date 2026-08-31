@@ -1,6 +1,6 @@
 {
   "name": "jurius-token-bridge",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "MVP de token A3 remoto com VirtualHere, Cloudflare Zero Trust e Chrome Native Messaging.",
   "scripts": {

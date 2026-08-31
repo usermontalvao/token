@@ -18,12 +18,20 @@ no firewall de borda.
 
 ## Clientes
 
-1. Matricule os computadores no Cloudflare One Client.
-2. Use modo **Traffic and DNS**.
-3. Em Split Tunnels, inclua `10.254.75.75/32` no WARP. Contas em modo Exclude
+1. Baixe o Cloudflare One Client estavel para Windows ou macOS:
+   https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/
+2. Escolha **Zero Trust security** e use `equipe-jurius` como nome da equipe.
+3. Matricule o computador com `pedro@advcuiaba.com` ou outro e-mail previamente
+   incluido na policy de Device Enrollment.
+4. Use modo **Traffic and DNS**.
+5. Em Split Tunnels, inclua `10.254.75.75/32` no WARP. Contas em modo Exclude
    precisam remover esse IP das exclusoes padrao de redes privadas.
-4. Confirme em `https://help.teams.cloudflare.com/` que WARP e Gateway Proxy
+6. Confirme em `https://help.teams.cloudflare.com/` que WARP e Gateway Proxy
    estao ativos.
+
+Uma policy de matricula apenas criada, mas nao associada ao aplicativo, causa
+`Enrollment request is invalid`. Nao inclua `connection_rules` de RDP nessa
+policy.
 
 ## Politica minima
 
@@ -54,3 +62,5 @@ Documentacao oficial:
 - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/private-net/
 - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/private-net/cloudflared/connect-cidr/
 
+O manual completo, incluindo os clientes Windows/macOS e os testes da rota,
+esta em [`MANUAL-COMPLETO.md`](MANUAL-COMPLETO.md).
